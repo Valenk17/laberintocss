@@ -1,0 +1,150 @@
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #ffffff;
+}
+
+/* ---------- contenedor ---------- */
+.contenedor {
+  position: relative;
+  width: 626px;
+  height: 626px;
+  background: #ffffff url("laberinto.png") no-repeat center / 100% 100%;
+  box-shadow: 0 0 0 3px #ffffff;
+}
+
+/* -------------------- */
+.objeto {
+  position: absolute;
+
+
+  /* posicion inicial */
+  left: 275px;
+  top: 35px;
+
+
+  /* cuadrado */
+  width: 60px;
+  height: 60px;
+  background-color: #22d3ee;
+  border-radius: 0;
+
+
+  /* Centra la figura sobre left/top y permite animar "rotate" por separado */
+  translate: -50% -50%;
+  rotate: 0deg;
+
+
+  /* superestrella */
+  clip-path: polygon(50% 0%, 100% 0%, 100% 35%, 100% 100%, 79% 100%,
+                     50% 100%, 21% 100%, 0% 100%, 0% 35%, 0% 0%);
+  animation: resolver-laberinto 38s linear infinite;
+}
+
+/* =========================================================
+   LÍNEA DE TIEMPO (38 s, loop infinito) LO SAQUE DE GOOGLE
+     0%  -  7%  : cuadrado -> círculo (44px cabe en los pasillos)
+     7%  - 55%  : recorrido por el interior del laberinto
+    55%  - 96%  : círculo -> estrella, vuelta por toda la orilla
+    96%  - 100% : estrella -> cuadrado, gira y cierra el ciclo
+   ========================================================= */
+@keyframes resolver-laberinto {
+
+  /* ----- posicion inicial ----- */
+  0% {
+    left: 275px; top: 35px;
+    width: 60px; height: 60px;
+    border-radius: 0;
+    background-color: #22d3ee;
+    rotate: 0deg;
+    clip-path: polygon(50% 0%, 100% 0%, 100% 35%, 100% 100%, 79% 100%,
+                       50% 100%, 21% 100%, 0% 100%, 0% 35%, 0% 0%);
+  }
+  4% {                       /* cuadraro al mero inicio */
+    left: 275px; top: 35px;
+    width: 60px; height: 60px;
+    border-radius: 0;
+  }
+
+  /* -----  transformacion de cuadradro a circulo ----- */
+  7% {
+    left: 275px; top: 35px;
+    width: 44px; height: 44px;
+    border-radius: 50%;
+  }
+
+  /* ----- 3. Recorrido dentro del laberinto ----- */
+  9.58%  { left: 275px; top: 125px; }   /* entra                             */
+  13.88% { left: 425px; top: 125px; }   /* derecha por el pasillo superior   */
+  16.03% { left: 425px; top: 200px; }   /* baja                              */
+  18.18% { left: 350px; top: 200px; }   /* izquierda                         */
+  22.48% { left: 350px; top: 350px; }   /* baja                               */
+  26.78% { left: 500px; top: 350px; }   /* derecha                           */
+  31.08% { left: 500px; top: 500px; }   /* baja hasta el fondo               */
+  35.38% { left: 350px; top: 500px; }   /* izquierda                         */
+  37.53% { left: 350px; top: 425px; }   /* sube                              */
+  39.68% { left: 275px; top: 425px; }   /* izquierda                         */
+  41.83% { left: 275px; top: 500px; }   /* baja                              */
+  43.98% { left: 200px; top: 500px; }   /* izquierda                         */
+  48.28% { left: 200px; top: 350px; }   /* sube                              */
+  50.43% { left: 125px; top: 350px; }   /* izquierda                         */
+  52.58% { left: 125px; top: 425px; }   /* baja                              */
+
+  /* -----  salida ----- */
+  55.16% {
+    left: 35px; top: 425px;
+    width: 44px; height: 44px;
+    border-radius: 50%;
+    background-color: #22d3ee;
+    rotate: 0deg;
+    clip-path: polygon(50% 0%, 100% 0%, 100% 35%, 100% 100%, 79% 100%,
+                       50% 100%, 21% 100%, 0% 100%, 0% 35%, 0% 0%);
+  }
+
+  /* ----- circulo a estrella con giro colorsitos jeje ----- */
+  57% {
+    left: 35px; top: 497px;
+    width: 64px; height: 64px;
+    border-radius: 0;
+    background-color: #facc15;
+    rotate: 90deg;
+    clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%,
+                       50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
+  }
+
+  /* ----- colores y bordes----- */
+  59.4%  { left: 35px;  top: 591px; background-color: #f97316; rotate: 300deg;  }  /* esquina inferior izquierda */
+  73.7%  { left: 591px; top: 591px; background-color: #ec4899; rotate: 700deg;  }  /* esquina inferior derecha   */
+  87.9%  { left: 591px; top: 35px;  background-color: #a855f7; rotate: 1100deg; }  /* esquina superior derecha   */
+
+  /* ----- regreso de la estrella ----- */
+  96% {
+    left: 275px; top: 35px;
+    width: 64px; height: 64px;
+    border-radius: 0;
+    background-color: #22c55e;
+    rotate: 1440deg;
+    clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%,
+                       50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
+  }
+
+  /* ----- estrella a cuadrado de nuevo ----- */
+  100% {
+    left: 275px; top: 35px;
+    width: 60px; height: 60px;
+    border-radius: 0;
+    background-color: #22d3ee;
+    rotate: 1800deg;
+    clip-path: polygon(50% 0%, 100% 0%, 100% 35%, 100% 100%, 79% 100%,
+                       50% 100%, 21% 100%, 0% 100%, 0% 35%, 0% 0%);
+  }
+}
